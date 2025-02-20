@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace PlaciVerseApi.Classes
+namespace PlaciVerseApi.Models
 {
     public class Object2D
     {

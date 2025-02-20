@@ -1,4 +1,4 @@
-﻿using PlaciVerseApi.Classes;
+﻿using PlaciVerseApi.Models;
 using System.Threading.Tasks;
 
 namespace PlaciVerseApi.Repositories

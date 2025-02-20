@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PlaciVerseApi.Classes;
+using PlaciVerseApi.Models;
 using PlaciVerseApi.Repositories;
 
 namespace PlaciVerseApi.Controllers

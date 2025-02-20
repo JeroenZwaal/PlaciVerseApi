@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
-using PlaciVerseApi.Classes;
+using PlaciVerseApi.Models;
 
 namespace PlaciVerseApi.Repositories
 {

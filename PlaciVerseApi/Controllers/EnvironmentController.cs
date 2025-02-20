@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PlaciVerseApi.Repositories;
-using PlaciVerseApi.Classes;
+using PlaciVerseApi.Models;
 
 namespace PlaciVerseApi.Controllers
 {
@@ -18,8 +18,6 @@ namespace PlaciVerseApi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateEnvironment([FromBody] Environment2D environment)
         {
-            // Create the environment
-            var newEnvironment = await _environmentRepository.CreateEnvironment(environment);
             return Ok();
         }
 
