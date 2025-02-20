@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PlaciVerseApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2985da476ac22554496604bdd4bf29d9e680227e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eba017efd869b5fcea83a875bde89eb4f6ec208a")]
 [assembly: System.Reflection.AssemblyProductAttribute("PlaciVerseApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PlaciVerseApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

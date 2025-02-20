@@ -9,14 +9,12 @@ namespace PlaciVerseApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddAuthorization();
-
-            
-
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddAuthorization();
 
             var sqlConnectionString = builder.Configuration["sqlConnectionString"];
             if (string.IsNullOrEmpty(sqlConnectionString))
@@ -53,8 +51,6 @@ namespace PlaciVerseApi
             app.UseAuthorization();
             app.MapGroup("/account").MapIdentityApi<IdentityUser>();
             app.MapControllers().RequireAuthorization();
-
-            app.MapControllers();
 
             app.Run();
         }
