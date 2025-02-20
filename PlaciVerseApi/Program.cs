@@ -17,10 +17,8 @@ namespace PlaciVerseApi
             builder.Services.AddAuthorization();
 
             var sqlConnectionString = builder.Configuration["sqlConnectionString"];
-            if (string.IsNullOrEmpty(sqlConnectionString))
-            {
-                throw new ArgumentNullException("sqlConnectionString is null");
-            }
+
+            var sqlConnectionStringFound = !string.IsNullOrWhiteSpace(sqlConnectionString);
 
             builder.Services.AddIdentityApiEndpoints<IdentityUser>(options =>
             {
@@ -47,6 +45,8 @@ namespace PlaciVerseApi
             }
 
             app.UseHttpsRedirection();
+            
+            app.MapGet("/", () => $"The API is up . Connection string found: {(sqlConnectionStringFound ? "Yes" : "No")}");
 
             app.UseAuthorization();
             app.MapGroup("/account").MapIdentityApi<IdentityUser>();
