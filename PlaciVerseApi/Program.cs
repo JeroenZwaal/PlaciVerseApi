@@ -15,6 +15,7 @@ namespace PlaciVerseApi
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddAuthorization();
+            builder.Services.AddHttpContextAccessor();
 
             var sqlConnectionString = builder.Configuration["sqlConnectionString"];
 
@@ -31,7 +32,8 @@ namespace PlaciVerseApi
                 options.ConnectionString = sqlConnectionString;
             });
 
-            builder.Services.AddTransient<IUserRepository, UserRepository>(o => new UserRepository(sqlConnectionString));
+            //builder.Services.AddTransient<IUserRepository, UserRepository>(o => new UserRepository(sqlConnectionString));
+            builder.Services.AddTransient<IUserRepository, UserRepository>();
             builder.Services.AddTransient<IObjectRepository, ObjectRepository>(o => new ObjectRepository(sqlConnectionString));
             builder.Services.AddTransient<IEnvironmentRepository, EnvironmentRepository>(o => new EnvironmentRepository(sqlConnectionString));
 
