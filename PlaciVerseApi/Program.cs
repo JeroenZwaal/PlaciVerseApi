@@ -44,7 +44,6 @@ namespace PlaciVerseApi
             {
                 
             }
-
             app.UseSwagger();
             app.UseSwaggerUI();
 
