@@ -5,10 +5,10 @@ namespace PlaciVerseApi.Repositories
 {
     public interface IObjectRepository
     {
-        Task<Object2D> CreateObject(Object2D obj);
-        Task<Object2D?> GetObject(int id);
-        Task<List<Object2D>> GetAllObjects();
-        Task<bool> UpdateObject(Object2D obj);
-        Task<bool> DeleteObject(int id);
+        Task<bool> CreateObject(Object2D obj, int envId);
+        Task<List<Object2D?>> GetObjectsByEnvironmentId(int envId);
+        //Task<List<Object2D>> GetAllObjects();
+        //Task<bool> UpdateObject(Object2D obj);
+        //Task<bool> DeleteObject(int id);
     }
 }

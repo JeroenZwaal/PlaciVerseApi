@@ -13,44 +13,42 @@ namespace PlaciVerseApi.Repositories
             this.sqlConnectionString = sqlConnectionString;
         }
 
-        public async Task<Environment2D> CreateEnvironment(Environment2D env)
+        public async Task<bool> CreateEnvironment(Environment2D env, string userId)
         {
             using (var connection = new SqlConnection(sqlConnectionString))
             {
                 await connection.OpenAsync();
 
-                string query = "INSERT INTO Environments (Name) VALUES (@Name); SELECT CAST(SCOPE_IDENTITY() as int)";
-                return await connection.QuerySingleAsync<Environment2D>(query, env);
+                string query = "INSERT INTO Environments (Name, MaxLenght, MaxHeight, OwnerUserId) VALUES (@Name, @MaxLenght, @MaxHeight, @userId)";
+                var result = await connection.ExecuteAsync(query, new
+                {
+                    env.Name,
+                    env.MaxLenght,
+                    env.MaxHeight,
+                    userId
+                });
+
+                return result > 0; 
             }
         }
 
-        public async Task<Environment2D?> GetEnvironment(int id)
+        public async Task<IEnumerable<Environment2D?>> GetEnvironmentByUserId(string userId)
         {
             using (var connection = new SqlConnection(sqlConnectionString))
             {
-                var env = await connection.QueryFirstOrDefaultAsync<Environment2D>("SELECT * FROM Environments WHERE Id = @Id", new { Id = id });
-                return env;
+                string query = "SELECT * FROM Environments WHERE userId = @userId";
+                return await connection.QueryAsync<Environment2D>("SELECT * FROM Environments WHERE OwnerUserId = @Id", new { Id = userId });
             }
         }
 
-        public async Task<bool> UpdateEnvironment(Environment2D env)
+        public async Task<bool> DeleteEnvironment(int id, string userId)
         {
             using (var connection = new SqlConnection(sqlConnectionString))
             {
                 await connection.OpenAsync();
-                string query = "UPDATE Environments SET Name = @Name WHERE Id = @Id";
-                return await connection.ExecuteAsync(query, env) > 0;
-            }
 
-        }
-
-        public async Task<bool> DeleteEnvironment(int id)
-        {
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                await connection.OpenAsync();
-                string query = "DELETE FROM Environments WHERE Id = @Id";
-                return await connection.ExecuteAsync(query, new { Id = id }) > 0;
+                //await connection.ExecuteAsync("DELETE FROM Objects WHERE EnvironmentId = @Id", new { Id = id });
+                return await connection.ExecuteAsync("DELETE FROM Environments WHERE EnvironmentId = @id AND OwnerUserId = @userId", new { id, userId }) > 0;
             }
 
         }

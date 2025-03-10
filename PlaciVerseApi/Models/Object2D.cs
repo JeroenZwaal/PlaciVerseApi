@@ -33,7 +33,5 @@ namespace PlaciVerseApi.Models
         [Required]
         public int SortingLayer { get; set; }
 
-        [JsonIgnore]
-        public Environment2D Environment { get; set; }
     }
 }

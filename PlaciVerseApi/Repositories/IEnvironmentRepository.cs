@@ -4,9 +4,9 @@ namespace PlaciVerseApi.Repositories
 {
     public interface IEnvironmentRepository
     {
-        Task<Environment2D> CreateEnvironment(Environment2D env);
-        Task<Environment2D?> GetEnvironment(int id);
-        Task<bool> UpdateEnvironment(Environment2D env);
-        Task<bool> DeleteEnvironment(int id);
+        Task<bool> CreateEnvironment(Environment2D env, string userId);
+        Task<IEnumerable<Environment2D?>> GetEnvironmentByUserId(string userId);
+        //Task<bool> UpdateEnvironment(Environment2D env);
+        Task<bool> DeleteEnvironment(int id, string userId);
     }
 }
