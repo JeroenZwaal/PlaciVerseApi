@@ -4,7 +4,7 @@ using PlaciVerseApi.Models;
 
 namespace PlaciVerseApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("environments")]
     [ApiController]
     public class EnvironmentController : ControllerBase
     {

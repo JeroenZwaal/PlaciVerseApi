@@ -4,7 +4,7 @@ using PlaciVerseApi.Repositories;
 
 namespace PlaciVerseApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("objects")]
     [ApiController]
     public class ObjectController : ControllerBase
     {
