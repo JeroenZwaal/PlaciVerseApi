@@ -68,7 +68,7 @@ namespace PlaciVerseApi.Controllers
                 return BadRequest("Environment not created");
             }
 
-            return CreatedAtAction(nameof(CreateEnvironment), environment);
+            return CreatedAtAction(nameof(CreateEnvironment), new { id = result.EnvironmentId }, result);
         }
 
         [HttpGet]

@@ -13,22 +13,33 @@ namespace PlaciVerseApi.Repositories
             this.sqlConnectionString = sqlConnectionString;
         }
 
-        public async Task<bool> CreateEnvironment(Environment2D env, string userId)
+        public async Task<Environment2D?> CreateEnvironment(Environment2D env, string userId)
         {
             using (var connection = new SqlConnection(sqlConnectionString))
             {
                 await connection.OpenAsync();
 
-                string query = "INSERT INTO Environments (Name, MaxLenght, MaxHeight, OwnerUserId) VALUES (@Name, @MaxLenght, @MaxHeight, @userId)";
-                var result = await connection.ExecuteAsync(query, new
+                string query = "INSERT INTO Environments (Name, MaxLenght, MaxHeight, OwnerUserId) OUTPUT INSERTED.EnvironmentId VALUES (@Name, @MaxLenght, @MaxHeight, @userId)";
+                var newId = await connection.ExecuteScalarAsync<int>(query, new
                 {
                     env.Name,
                     env.MaxLenght,
                     env.MaxHeight,
-                    userId
+                    UserId = userId
                 });
 
-                return result > 0; 
+                if (newId > 0)
+                {
+                    return new Environment2D
+                    {
+                        EnvironmentId = newId,
+                        Name = env.Name,
+                        MaxLenght = env.MaxLenght,
+                        MaxHeight = env.MaxHeight,
+                    };
+                }
+
+                return null; // Geeft aan dat de insert is mislukt
             }
         }
 
