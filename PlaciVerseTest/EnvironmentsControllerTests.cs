@@ -17,20 +17,31 @@ namespace PlaciVerseTests
         {
             // ARRANGE
 
-            // Fake data for the test
             var userId = "user123"; // Fake userId
             var newEnvironment = GenerateRandomEnvironment("New Environment");
             var existingUserEnvironments = new List<Environment2D>(); // No environments exist for the user yet
 
-            // Mocks for the repositories
+            // Mock de repositories
             var environmentRepository = new Mock<IEnvironmentRepository>();
             var userRepository = new Mock<IUserRepository>();
 
-            // Setup mock methods to return fake data
+            // Setup mock methods
             userRepository.Setup(x => x.GetCurrentUserId()).Returns(userId);
             environmentRepository.Setup(x => x.GetEnvironmentByUserId(userId)).ReturnsAsync(existingUserEnvironments);
 
-            // Create the controller
+            // Maak een mock response van CreateEnvironment
+            var createdEnvironment = new Environment2D
+            {
+                EnvironmentId = 123, // Simuleer dat een ID wordt teruggegeven
+                Name = newEnvironment.Name,
+                MaxLenght = newEnvironment.MaxLenght,
+                MaxHeight = newEnvironment.MaxHeight
+            };
+
+            environmentRepository.Setup(x => x.CreateEnvironment(It.IsAny<Environment2D>(), userId))
+                .ReturnsAsync(createdEnvironment);
+
+            // Maak de controller
             var environmentController = new EnvironmentController(environmentRepository.Object, userRepository.Object);
 
             // ACT
@@ -38,20 +49,20 @@ namespace PlaciVerseTests
 
             // ASSERT
 
-            // Check if the result is a CreatedAtActionResult
+            // Check of de response van het juiste type is
             Assert.IsInstanceOfType(response, typeof(CreatedAtActionResult));
 
-            // Extract the created environment from the response
-            var createdEnvironment = (response as CreatedAtActionResult)?.Value as Environment2D;
+            // Verkrijg de gemaakte environment uit de response
+            var createdEnvironmentFromResponse = (response as CreatedAtActionResult)?.Value as Environment2D;
 
-            // Assert if the created environment matches the new environment
-            Assert.IsNotNull(createdEnvironment);
-            Assert.AreEqual(newEnvironment.Name, createdEnvironment.Name);
-            Assert.AreEqual(newEnvironment.MaxLenght, createdEnvironment.MaxLenght);
-            Assert.AreEqual(newEnvironment.MaxHeight, createdEnvironment.MaxHeight);
-
-            
+            // Assert dat de gemaakte environment overeenkomt met de nieuwe environment
+            Assert.IsNotNull(createdEnvironmentFromResponse);
+            Assert.AreEqual(newEnvironment.Name, createdEnvironmentFromResponse.Name);
+            Assert.AreEqual(newEnvironment.MaxLenght, createdEnvironmentFromResponse.MaxLenght);
+            Assert.AreEqual(newEnvironment.MaxHeight, createdEnvironmentFromResponse.MaxHeight);
+            Assert.AreEqual(123, createdEnvironmentFromResponse.EnvironmentId); // Assert dat het gegenereerde ID overeenkomt
         }
+
 
         /// <summary>
         /// Helper method to generate a random environment.
