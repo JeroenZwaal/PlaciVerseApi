@@ -25,11 +25,29 @@ namespace PlaciVerseApi.Controllers
                 return BadRequest("Environment is empty");
             }
 
+            if (environment.MaxLenght < 20 || environment.MaxLenght > 200)
+            {
+                return BadRequest("Lengte moet tussen 20 en 200 zijn!");
+            }
+
+            if (environment.MaxHeight < 10 || environment.MaxHeight > 100)
+            {
+                return BadRequest("Hoogte moet tussen 10 en 100 zijn!");
+            }
+
+            // Controleer of de naam tussen 1 en 25 tekens is
+            if (string.IsNullOrEmpty(environment.Name) || environment.Name.Length < 1 || environment.Name.Length > 25)
+            {
+                return BadRequest("Naam moet tussen 1 en 25 tekens zijn!");
+            }
+
             var userId = _userRepository.GetCurrentUserId();
 
             if (string.IsNullOrEmpty(userId)) {
-                return Unauthorized("User not Authorized");
+                return Unauthorized("User not Authorized"); 
             }
+
+            
 
             IEnumerable<Environment2D> envCount = await _environmentRepository.GetEnvironmentByUserId(userId);
             if (envCount.Count() >= 5)
