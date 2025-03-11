@@ -25,6 +25,26 @@ namespace PlaciVerseApi.Controllers
                 return BadRequest("Environment is empty");
             }
 
+            var userId = _userRepository.GetCurrentUserId();
+
+            if (string.IsNullOrEmpty(userId)) {
+                return Unauthorized("User not Authorized"); 
+            }
+
+            IEnumerable<Environment2D> envCount = await _environmentRepository.GetEnvironmentByUserId(userId);
+
+            foreach (var env in envCount)
+            {
+                if (env.Name.ToLower() == environment.Name.ToLower())
+                {
+                    return BadRequest("Environment name already exists");
+                }
+            }
+            if (envCount.Count() >= 5)
+            {
+                return BadRequest("User has reached the maximum number of environments");
+            }
+
             if (environment.MaxLenght < 20 || environment.MaxLenght > 200)
             {
                 return BadRequest("Lengte moet tussen 20 en 200 zijn!");
@@ -39,20 +59,6 @@ namespace PlaciVerseApi.Controllers
             if (string.IsNullOrEmpty(environment.Name) || environment.Name.Length < 1 || environment.Name.Length > 25)
             {
                 return BadRequest("Naam moet tussen 1 en 25 tekens zijn!");
-            }
-
-            var userId = _userRepository.GetCurrentUserId();
-
-            if (string.IsNullOrEmpty(userId)) {
-                return Unauthorized("User not Authorized"); 
-            }
-
-            
-
-            IEnumerable<Environment2D> envCount = await _environmentRepository.GetEnvironmentByUserId(userId);
-            if (envCount.Count() >= 5)
-            {
-                return BadRequest("User has reached the maximum number of environments");
             }
 
             var result = await _environmentRepository.CreateEnvironment(environment, userId);
