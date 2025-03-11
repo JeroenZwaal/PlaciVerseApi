@@ -85,6 +85,23 @@ namespace PlaciVerseApi.Controllers
             return Ok(env);
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetEnvironmentById(int id)
+        {
+            var userId = _userRepository.GetCurrentUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User not Authorized");
+            }
+            var env = await _environmentRepository.GetEnvironmentByUserIdAndId(userId, id);
+            if (env == null)
+            {
+                return NotFound("Environment not found");
+            }
+            return Ok(env);
+        }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEnvironment(int id)

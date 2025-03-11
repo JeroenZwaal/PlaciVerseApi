@@ -32,6 +32,14 @@ namespace PlaciVerseApi.Repositories
             }
         }
 
+        public async Task<Environment2D?> GetEnvironmentByUserIdAndId(string userId, int id)
+        {
+            using (var connection = new SqlConnection(sqlConnectionString))
+            {
+                return await connection.QueryFirstOrDefaultAsync<Environment2D>("SELECT * FROM Environments WHERE EnvironmentId = @id AND OwnerUserId = @userId", new { id, userId });
+            }
+        }
+
         public async Task<IEnumerable<Environment2D?>> GetEnvironmentByUserId(string userId)
         {
             using (var connection = new SqlConnection(sqlConnectionString))

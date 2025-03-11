@@ -34,14 +34,22 @@ namespace PlaciVerseApi.Repositories
         }
 
 
-        //public Task<bool> UpdateObject(Object2D obj)
+        //public async Task<bool> UpdateObject(Object2D obj)
         //{
-        //    throw new NotImplementedException();
+        //    using (var connection = new SqlConnection(sqlConnectionString))
+        //    {
+        //        connection.Open();
+        //        return await connection.ExecuteAsync("UPDATE Objects SET PrefabId = @PrefabId, PositionX = @PositionX, PositionY = @PositionY, ScaleX = @ScaleX, ScaleY = @ScaleY, RotationZ = @RotationZ, SortingLayer = @SortingLayer WHERE ObjectId = @ObjectId", obj) > 0;
+        //    }
         //}
 
-        //public Task<bool> DeleteObject(int id)
+        //public async Task<bool> DeleteObject(int id)
         //{
-        //    throw new NotImplementedException();
+        //    using (var connection = new SqlConnection(sqlConnectionString))
+        //    {
+        //        connection.Open();
+        //        return await connection.ExecuteAsync("DELETE FROM Objects WHERE ObjectId = @id", new { id }) > 0;
+        //    }
         //}
 
     }
