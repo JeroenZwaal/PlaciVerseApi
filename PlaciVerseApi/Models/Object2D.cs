@@ -16,10 +16,10 @@ namespace PlaciVerseApi.Models
         public int PrefabId { get; set; }
 
         [Required]
-        public double positionX { get; set; }
+        public double PositionX { get; set; }
 
         [Required]
-        public double positionY { get; set; }
+        public double PositionY { get; set; }
 
         [Required]
         public double ScaleX { get; set; }

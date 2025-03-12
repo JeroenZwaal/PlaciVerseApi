@@ -34,7 +34,7 @@ namespace PlaciVerseApi.Controllers
                 return BadRequest("Object not created");
             }
 
-            return CreatedAtAction(nameof(CreateObject), obj);
+            return CreatedAtAction(nameof(CreateObject), result);
         }
 
         [HttpGet]
@@ -53,6 +53,35 @@ namespace PlaciVerseApi.Controllers
             }
             
             return Ok(objects);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateObject(int id, [FromBody] Object2D obj)
+        {
+            if (obj == null || id != obj.ObjectId)
+                return BadRequest("Invalid object data.");
+
+            var updatedObject = await _objectRepository.UpdateObject(obj);
+            if (updatedObject == null)
+                return NotFound("Object not found.");
+
+            return Ok(updatedObject);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteObject(int id)
+        {
+            var userId = _userRepository.GetCurrentUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User not Authorized");
+            }
+            var result = await _objectRepository.DeleteObject(id);
+            if (!result)
+            {
+                return BadRequest("Object not deleted");
+            }
+            return Ok("Object deleted");
         }
     }
 }
